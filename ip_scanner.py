@@ -19,12 +19,16 @@ def get_ip(target):
         return None
 
 # Port Scanning Function
-def portscan(port):
+def portscan(t_IP, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         con = s.connect((t_IP, port))
         with print_lock:
-            print(port, "is open", socket.getservbyport(port))
+            try:
+                service = socket.getservbyport(port)
+            except:
+                service = "Unknown service"
+            print(f"Port {port} is open ({service})")
         con.close()
     except:
         pass
