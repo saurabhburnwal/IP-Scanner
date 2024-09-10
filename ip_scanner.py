@@ -37,7 +37,7 @@ def portscan(t_IP, port):
 def threader(t_IP):
     while True:
         worker = q.get()
-        portscan(worker)
+        portscan(t_IP, worker)
         q.task_done()
 
 def main():
