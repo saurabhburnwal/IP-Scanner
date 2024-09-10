@@ -82,7 +82,7 @@ def main():
     for worker in range(start_port, end_port + 1):
         q.put(worker)
 
-     q.join()
+    q.join()
 
     print('Time taken:', time.time() - startTime)
 
