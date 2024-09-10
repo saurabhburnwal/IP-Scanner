@@ -20,3 +20,10 @@ def portscan(port):
     except:
         pass
 
+def threader():
+    while True:
+        worker = q.get()
+        portscan(worker)
+        q.task_done()
+
+q = Queue()
