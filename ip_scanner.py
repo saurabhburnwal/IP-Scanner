@@ -3,17 +3,20 @@ import time
 import threading
 from queue import Queue
 
-# Socket and Timeout Setup
-socket.setdefaulttimeout(0.25)
+# Set a default socket timeout (can be adjusted by the user)
+socket.setdefaulttimeout(0.5)
 
 # Threading Lock
 print_lock = threading.Lock()
 
-# Target IP Setup
-target = input("Enter the IP address to scan: ")
-t_IP = socket.gethostbyname(target)
-
-print("Starting scan on host: ", t_IP)
+def get_ip(target):
+    try:
+        t_IP = socket.gethostbyname(target)
+        print(f"Starting scan on host: {t_IP}")
+        return t_IP
+    except socket.gaierror:
+        print("Invalid hostname or IP address.")
+        return None
 
 # Port Scanning Function
 def portscan(port):
@@ -21,7 +24,7 @@ def portscan(port):
     try:
         con = s.connect((t_IP, port))
         with print_lock:
-            print(port, "is open")
+            print(port, "is open", socket.getservbyport(port))
         con.close()
     except:
         pass
